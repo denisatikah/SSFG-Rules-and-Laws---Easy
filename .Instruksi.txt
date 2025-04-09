@@ -1,0 +1,11 @@
+Cara Bermain
+---
+1. Lakukan "Extract files", pastikan seluruh file berada di folder yang sama
+2. Buka file "index.html"
+3. Kamu dapat mulai bermain
+
+
+Peraturan
+---
+Kamu hanya akan dapat melanjutkan halaman permainan jika memilih jawaban yang benar.
+Jika sudah menyelesaikan seluruh soal, kamu dapat melaksanakan aktivitas menyenangkan.
