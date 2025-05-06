@@ -1,222 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prototype for Dennis SSFG</title>
-    <style>
-        body {
-            font-family: OpenDyslexic, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(to bottom, #4d4dff, #fff);
-            height: 100vh;
-            background-attachment: fixed;
-            cursor: url('cursor-revised.png') 1 1, auto;
-        }
+  <meta charset="UTF-8">
+  <title>Choice Game</title>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: OpenDyslexic, sans-serif;
+      font-size: 26px;
+      cursor: url('cursor-revised.png') 1 1, auto;
+    }
 
-        button, button:hover, a, a:hover, div, img, img:hover, .image-container, table {
-            cursor: url('cursor-revised.png') 1 1, auto;
-        }
+    table {
+      min-width: 800px;
+      cursor: url('cursor-revised.png') 1 1, auto;
+      text-align: center;
+      border-collapse: collapse;
+    }
 
-        img {
-            border: 2px solid black;
-            transition: opacity 0.3s ease;
-        }
+    tr {
+      border: none;
+    }
 
-        img:hover {
-            opacity: 0.5;
-        }
+    td {
+      padding: 2px;
+      border: none;
+    }
 
-        .game-container {
-            text-align: center;
-            background-color: white;
-            border: 2px solid #000;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 1000px;
-        }
+    td.picture {
+      width: 650px;
+    }
 
-        .game-container h2 {
-            font-size: 30px;
-            margin-bottom: 20px;
-        }
+    button {
+      height: 30px;
+      border: 2px solid black;
+      border-radius: 5px;
+      font-family: OpenDyslexic, sans-serif;
+      background-color: #ffff58;
+    }    
 
-        .images-container {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-        }
+    .choice {
+      cursor: url('cursor-revised.png') 1 1, auto;
+      background-color: #f0f0f0;
+      transition: background-color 0.3s;
+      height: 70px;
+      border: 2px solid black;
+    }
 
-        .image-option {
-            width: 350px;
-            height: 350px;
-            object-fit: cover;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
+    .choice:hover {
+      background-color: #ffff58;
+    }
 
-        figure {
-            text-align: center;
-        }
+    .message {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
 
-        figcaption {
-            font-size: 35px;
-            margin-top: 2px;
-        }
+    .correct {
+      color: green;
+    }
 
-        .result {
-            font-size: 30px;
-            font-weight: bold;
-        }
+    .wrong {
+      color: red;
+    }
 
-        .result.correct {
-            color: green;
-        }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
 
-        .result.incorrect {
-            color: red;
-        }
+    img.promptimg {
+      max-height: 450px;
+      border-radius: 10px;
+    }
 
-        .next-button {
-            font-family: OpenDyslexic;
-            background-color: #ffff58;
-            color: black;
-            border-radius: 3px;
-            border: 2px solid #000;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 20px;
-        }
-
-        .next-button:disabled {
-            background-color: #ccc;
-            color: grey;
-        }
-    </style>
+    .description {
+      font-size: 32px;
+      margin-bottom: 10px;
+      width: 350px;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="game-container">
-        <div class="images-container">
-            <figure id="figure1">
-                <img src="https://via.placeholder.com/100x100.png?text=1" alt="Image 1" class="image-option" id="img1" onclick="checkAnswer('img1')">
-                <figcaption id="caption1">Option 1</figcaption>
-            </figure>
-            <figure id="figure2">
-                <img src="https://via.placeholder.com/100x100.png?text=2" alt="Image 2" class="image-option" id="img2" onclick="checkAnswer('img2')">
-                <figcaption id="caption2">Option 2</figcaption>
-            </figure>
+  <table>
+    <tr>
+      <td rowspan="5" class="picture"><img id="prompt-img" src="1.jpeg" alt="prompt" class="promptimg"></td>
+      <td class="description" id="description-text"></td>
+    </tr>
+    <tr>
+      <td class="choice" onclick="checkAnswer(0)">Pilihan A</td>
+    </tr>
+    <tr>
+      <td class="choice" onclick="checkAnswer(1)">Pilihan B</td>
+    </tr>
+    <tr>
+      <td class="choice" onclick="checkAnswer(2)">Pilihan C</td>
+    </tr>
+    <tr>
+      <td style="height: 50px;"></td>
+    </tr>
+    <tr>
+      <td colspan="2" style="height: 150px;">
+        <div id="message" class="message"></div>
+        <div>
+          <button id="next-btn" onclick="nextStage()" disabled>selanjutnya</button>
         </div>
-        <div class="result" id="result"></div>
-        <button id="nextButton" class="next-button" onclick="nextStage()" disabled>selanjutnya</button>
-    </div>
+      </td>
+    </tr>
+  </table>
 
-    <script>
-        const stages = [
-            { 
-                correct: 'img2', 
-                image1: '5.jpeg?text=masuk', 
-                image2: '5.jpeg?text=tidak masuk', 
-                caption1: 'masuk', 
-                caption2: 'tidak masuk', 
-                title1: 'Toilet Perempuan', 
-                title2: 'Toilet Perempuan' 
-            },
-            { 
-                correct: 'img2', 
-                image1: '1.jpeg?text=lari-lari', 
-                image2: '1.jpeg?text=fokus', 
-                caption1: 'lari-lari', 
-                caption2: 'fokus', 
-                title1: 'Belajar', 
-                title2: 'Belajar'
-            },
-            { 
-                correct: 'img1', 
-                image1: '2.jpeg?text=pintu dikunci', 
-                image2: '2.jpeg?text=pintu ditutup', 
-                caption1: 'pintu dikunci', 
-                caption2: 'pintu ditutup', 
-                title1: 'Pipis / Pupup', 
-                title2: 'Pipis / Pupup'
-            },
-            { 
-                correct: 'img2', 
-                image1: '3.jpeg?text=duduk', 
-                image2: '3.jpeg?text=belok kanan', 
-                caption1: 'duduk', 
-                caption2: 'belok kanan', 
-                title1: 'Lobi', 
-                title2: 'Lobi'
-            },
-            { 
-                correct: 'img1', 
-                image1: '4.jpeg?text=bayar', 
-                image2: '4.jpeg?text=tidak bayar', 
-                caption1: 'bayar', 
-                caption2: 'tidak bayar', 
-                title1: 'Jajan', 
-                title2: 'Jajan'
-            }
-        ];
+  <script>
+    const correctAnswers = [2, 0, 1, 1, 0, 2]; // correct answer index for each stage
+    const choices = [
+      ['belum mau', 'lari-lari', 'fokus'],
+      ['pintu dikunci', 'pintu ditutup', 'pintu dibuka'],
+      ['belok kiri', 'belok kanan', 'duduk'],
+      ['makan aja', 'bayar', 'duduk aja'],
+      ['tidak masuk', 'masuk', 'pipis'],
+      ['pupup', 'minum haus', 'lap tisu']
+    ];
 
-        let currentStage = 0;
+    const descriptions = [
+      'duduk belajar',
+      'pipis pupup',
+      'lobi',
+      'jajan makan',
+      'toilet perempuan',
+      'sudah makan'
+    ];
 
-        function updateStage() {
-            const stage = stages[currentStage];
-            // Update the image sources dynamically
-            document.getElementById('img1').src = stage.image1;
-            document.getElementById('img2').src = stage.image2;
+    let currentStage = 0;
 
-            // Add the title attribute to the images
-            document.getElementById('img1').title = stage.title1;
-            document.getElementById('img2').title = stage.title2;
+    function updateStage() {
+      document.getElementById('prompt-img').src = `${currentStage + 1}.jpeg`;
 
-            // Update the captions dynamically
-            document.getElementById('caption1').textContent = stage.caption1;
-            document.getElementById('caption2').textContent = stage.caption2;
+      const choiceCells = document.querySelectorAll('.choice');
+      choiceCells.forEach((cell, index) => {
+        cell.textContent = choices[currentStage][index];
+      });
 
-            // Reset the result text and disable the next button
-            document.getElementById('result').textContent = '';
-            document.getElementById('nextButton').disabled = true;  // Keep button disabled initially
-        }
+      document.getElementById('description-text').textContent = descriptions[currentStage];
+      document.getElementById('message').textContent = '';
+      document.getElementById('next-btn').disabled = true;
+    }
 
-        function checkAnswer(selected) {
-            const stage = stages[currentStage];
-            const result = document.getElementById('result');
-            
-            if (selected === stage.correct) {
-                result.textContent = "benar!";
-                result.classList.remove('incorrect');
-                result.classList.add('correct');
-                document.getElementById('nextButton').disabled = false;  // Enable the "Next" button only if the correct answer is selected
-            } else {
-                result.textContent = "salah. coba lagi.";
-                result.classList.remove('correct');
-                result.classList.add('incorrect');
-                document.getElementById('nextButton').disabled = true;  // Keep the button disabled if the answer is wrong
-            }
-        }
+    function checkAnswer(index) {
+      const messageDiv = document.getElementById('message');
+      if (index === correctAnswers[currentStage]) {
+        messageDiv.textContent = 'benar';
+        messageDiv.className = 'message correct';
+        document.getElementById('next-btn').disabled = false;
+      } else {
+        messageDiv.textContent = 'salah, coba lagi';
+        messageDiv.className = 'message wrong';
+        document.getElementById('next-btn').disabled = true;
+      }
+    }
 
-        function nextStage() {
-            if (currentStage < stages.length - 1) {
-                currentStage++;
-                updateStage();
-            } else {
-                document.getElementById('result').textContent = "sudah selesai. boleh lari-lari.";
-                document.getElementById('nextButton').disabled = true;  // Disable the button when finished
-            }
-        }
+    function nextStage() {
+      currentStage++;
+      if (currentStage >= choices.length) {
+        alert('sudah selesai, boleh lari-lari');
+        document.getElementById('next-btn').disabled = true;
+        return;
+      }
+      updateStage();
+    }
 
-        // Initialize the game by displaying the first stage
-        updateStage();
-    </script>
+    // Initialize
+    updateStage();
+  </script>
 </body>
 </html>
